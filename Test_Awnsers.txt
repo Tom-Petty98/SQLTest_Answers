@@ -1,0 +1,306 @@
+
+1.
+SELECT * FROM actor;
+200 rows in set (0.01 sec)
+
+2.
+mysql> SELECT * FROM actor WHERE first_name='JOHN';
++----------+------------+-----------+---------------------+
+| actor_id | first_name | last_name | last_update         |
++----------+------------+-----------+---------------------+
+|      192 | JOHN       | SUVARI    | 2006-02-15 04:34:33 |
++----------+------------+-----------+---------------------+
+
+3.
+mysql> SELECT * FROM actor WHERE last_name="Neeson";
++----------+------------+-----------+---------------------+
+| actor_id | first_name | last_name | last_update         |
++----------+------------+-----------+---------------------+
+|       61 | CHRISTIAN  | NEESON    | 2006-02-15 04:34:33 |
+|       62 | JAYNE      | NEESON    | 2006-02-15 04:34:33 |
++----------+------------+-----------+---------------------+
+
+4.
+mysql> SELECT * FROM actor WHERE actor_id%10=0;
++----------+------------+-------------+---------------------+
+| actor_id | first_name | last_name   | last_update         |
++----------+------------+-------------+---------------------+
+|       10 | CHRISTIAN  | GABLE       | 2006-02-15 04:34:33 |
+|       20 | LUCILLE    | TRACY       | 2006-02-15 04:34:33 |
+|       30 | SANDRA     | PECK        | 2006-02-15 04:34:33 |
+|       40 | JOHNNY     | CAGE        | 2006-02-15 04:34:33 |
+|       50 | NATALIE    | HOPKINS     | 2006-02-15 04:34:33 |
+|       60 | HENRY      | BERRY       | 2006-02-15 04:34:33 |
+|       70 | MICHELLE   | MCCONAUGHEY | 2006-02-15 04:34:33 |
+|       80 | RALPH      | CRUZ        | 2006-02-15 04:34:33 |
+|       90 | SEAN       | GUINESS     | 2006-02-15 04:34:33 |
+|      100 | SPENCER    | DEPP        | 2006-02-15 04:34:33 |
+|      110 | SUSAN      | DAVIS       | 2006-02-15 04:34:33 |
+|      120 | PENELOPE   | MONROE      | 2006-02-15 04:34:33 |
+|      130 | GRETA      | KEITEL      | 2006-02-15 04:34:33 |
+|      140 | WHOOPI     | HURT        | 2006-02-15 04:34:33 |
+|      150 | JAYNE      | NOLTE       | 2006-02-15 04:34:33 |
+|      160 | CHRIS      | DEPP        | 2006-02-15 04:34:33 |
+|      170 | MENA       | HOPPER      | 2006-02-15 04:34:33 |
+|      180 | JEFF       | SILVERSTONE | 2006-02-15 04:34:33 |
+|      190 | AUDREY     | BAILEY      | 2006-02-15 04:34:33 |
+|      200 | THORA      | TEMPLE      | 2006-02-15 04:34:33 |
++----------+------------+-------------+---------------------+
+
+5.
+mysql> SELECT description FROM film WHERE film_id=100;
++-----------------------------------------------------------------------------------------------------------------+
+| description                                                                                                     |
++-----------------------------------------------------------------------------------------------------------------+
+| A Beautiful Drama of a Dentist And a Composer who must Battle a Sumo Wrestler in The First Manned Space Station |
++-----------------------------------------------------------------------------------------------------------------+
+
+6.
+SELECT * FROM film WHERE rating='R';
+
+7.
+SELECT * FROM film WHERE rating!='R';
+
+8.
+mysql> SELECT title, length FROM film ORDER BY length LIMIT 10;
++---------------------+--------+
+| title               | length |
++---------------------+--------+
+| RIDGEMONT SUBMARINE |     46 |
+| IRON MOON           |     46 |
+| ALIEN CENTER        |     46 |
+| LABYRINTH LEAGUE    |     46 |
+| KWAI HOMEWARD       |     46 |
+| DOWNHILL ENOUGH     |     47 |
+| HALLOWEEN NUTS      |     47 |
+| HANOVER GALAXY      |     47 |
+| DIVORCE SHINING     |     47 |
+| HAWK CHILL          |     47 |
++---------------------+--------+
+
+9.
+mysql> SELECT title FROM film ORDER BY length LIMIT 10;
+
+Or
+
+mysql> SELECT title FROM film;
+
+10.
+mysql> SELECT title, special_features FROM film WHERE special_features='Deleted Scenes';
+
+
+11.
+SELECT DISTINCT last_name FROM actor;
+
+12.
+mysql> SELECT last_name, COUNT(last_name) FROM actor GROUP BY last_name HAVING COUNT(last_name) > 1;
++-------------+------------------+
+| last_name   | COUNT(last_name) |
++-------------+------------------+
+| AKROYD      |                3 |
+| ALLEN       |                3 |
+| BAILEY      |                2 |
+| BENING      |                2 |
+55 rows in set
+
+13.
+mysql> SELECT actor_id, COUNT(actor_id) AS 'Num_of_movies' FROM film_actor GROUP BY actor_id ORDER BY Num_of_movies DESC LIMIT 3;
++----------+---------------+
+| actor_id | Num_of_movies |
++----------+---------------+
+|      107 |            42 |
+|      102 |            41 |
+|      198 |            40 |
++----------+---------------+
+
+14.
+
+15.
+
+16.
+mysql> SELECT AVG(length) FROM film;
++-------------+
+| AVG(length) |
++-------------+
+|    115.2720 |
++-------------+
+
+17.
+
+18.
+
+19.
+mysql> SELECT title, length FROM film ORDER BY length DESC LIMIT 12;
++--------------------+--------+
+| title              | length |
++--------------------+--------+
+| WORST BANGER       |    185 |
+| HOME PITY          |    185 |
+| POND SEATTLE       |    185 |
+| CHICAGO NORTH      |    185 |
+| CONTROL ANTHEM     |    185 |
+| MUSCLE BRIGHT      |    185 |
+| GANGS PRIDE        |    185 |
+| SWEET BROTHERHOOD  |    185 |
+| DARN FORRESTER     |    185 |
+| SOLDIERS EVOLUTION |    185 |
+| SMOOCHY CONTROL    |    184 |
+| CONSPIRACY SPIRIT  |    184 |
++--------------------+--------+
+
+20.
+mysql> SELECT COUNT(*) FROM film WHERE release_year=2010;
+mysql> SELECT COUNT(*) FROM film WHERE release_year BETWEEN 2009 AND 2011;
+
+Both output
++----------+
+| COUNT(*) |
++----------+
+|        0 |
++----------+
+
+21.
+mysql> SELECT title FROM film JOIN film_category c ON film.film_id=c.film_id WHERE c.category_id=11;
++-----------------------------+
+| title                       |
++-----------------------------+
+| ACE GOLDFINGER              |
+| AFFAIR PREJUDICE            |
+| AIRPORT POLLOCK             |
+| ALABAMA DEVIL               |
+| ALI FOREVER                 |
+| ANALYZE HOOSIERS            |
+| ANYTHING SAVANNAH           |
+| ARABIA DOGMA                |
+| ARACHNOPHOBIA ROLLERCOASTER |
+
+22.
+mysql> SELECT first_name + last_name AS full_name FROM staff WHERE staff_id=1;
+
+23.
+mysql> SELECT * FROM actor WHERE first_name='FRED' AND last_name='COSTNER';
++----------+------------+-----------+---------------------+
+| actor_id | first_name | last_name | last_update         |
++----------+------------+-----------+---------------------+
+|       16 | FRED       | COSTNER   | 2006-02-15 04:34:33 |
++----------+------------+-----------+---------------------+
+
+
+mysql> SELECT * FROM film_actor WHERE actor_id=16;
++----------+---------+---------------------+
+| actor_id | film_id | last_update         |
++----------+---------+---------------------+
+|       16 |      80 | 2006-02-15 05:05:03 |
+|       16 |      87 | 2006-02-15 05:05:03 |
+|       16 |     101 | 2006-02-15 05:05:03 |
+|       16 |     121 | 2006-02-15 05:05:03 |
+|       16 |     155 | 2006-02-15 05:05:03 |
+|       16 |     177 | 2006-02-15 05:05:03 |
+|       16 |     218 | 2006-02-15 05:05:03 |
+|       16 |     221 | 2006-02-15 05:05:03 |
+|       16 |     267 | 2006-02-15 05:05:03 |
+|       16 |     269 | 2006-02-15 05:05:03 |
+|       16 |     271 | 2006-02-15 05:05:03 |
+|       16 |     280 | 2006-02-15 05:05:03 |
+|       16 |     287 | 2006-02-15 05:05:03 |
+|       16 |     345 | 2006-02-15 05:05:03 |
+|       16 |     438 | 2006-02-15 05:05:03 |
+|       16 |     453 | 2006-02-15 05:05:03 |
+|       16 |     455 | 2006-02-15 05:05:03 |
+|       16 |     456 | 2006-02-15 05:05:03 |
+|       16 |     503 | 2006-02-15 05:05:03 |
+|       16 |     548 | 2006-02-15 05:05:03 |
+|       16 |     582 | 2006-02-15 05:05:03 |
+|       16 |     583 | 2006-02-15 05:05:03 |
+|       16 |     717 | 2006-02-15 05:05:03 |
+|       16 |     758 | 2006-02-15 05:05:03 |
+|       16 |     779 | 2006-02-15 05:05:03 |
+|       16 |     886 | 2006-02-15 05:05:03 |
+|       16 |     967 | 2006-02-15 05:05:03 |
++----------+---------+---------------------+
+
+24.
+
+25.
+mysql> SELECT COUNT(DISTINCT country) FROM country;
++-------------------------+
+| COUNT(DISTINCT country) |
++-------------------------+
+|                     109 |
++-------------------------+
+
+25.1.
+mysql> SELECT * FROM language ORDER BY name;
++-------------+----------+---------------------+
+| language_id | name     | last_update         |
++-------------+----------+---------------------+
+|           1 | English  | 2006-02-15 05:02:19 |
+|           5 | French   | 2006-02-15 05:02:19 |
+|           6 | German   | 2006-02-15 05:02:19 |
+|           2 | Italian  | 2006-02-15 05:02:19 |
+|           3 | Japanese | 2006-02-15 05:02:19 |
+|           4 | Mandarin | 2006-02-15 05:02:19 |
++-------------+----------+---------------------+
+
+26.
+mysql> SELECT first_name + last_name AS full_name FROM actor WHERE last_name='%SON%';
+
+27.
+mysql> SELECT c.name, COUNT(f_c.film_id) AS 'Num_of_film_in_category' FROM film_category f_c JOIN category c ON f_c.category_i
+d=c.category_id GROUP BY f_c.category_id ORDER BY Num_of_film_in_category;
++-------------+-------------------------+
+| name        | Num_of_film_in_category |
++-------------+-------------------------+
+| Music       |                      51 |
+| Horror      |                      56 |
+| Classics    |                      57 |
+| Travel      |                      57 |
+| Comedy      |                      58 |
+| Children    |                      60 |
+| Games       |                      61 |
+| Sci-Fi      |                      61 |
+| Drama       |                      62 |
+| New         |                      63 |
+| Action      |                      64 |
+| Animation   |                      66 |
+| Documentary |                      68 |
+| Family      |                      69 |
+| Foreign     |                      73 |
+| Sports      |                      74 |
++-------------+-------------------------+
+
+28.
+mysql> SELECT actor_id, COUNT(film_id) FROM film_actor GROUP BY actor_id;
++----------+----------------+
+| actor_id | COUNT(film_id) |
++----------+----------------+
+|        1 |             19 |
+|        2 |             25 |
+|        3 |             22 |
+|        4 |             22 |
+|        5 |             29 |
+|        6 |             20 |
+|        7 |             30 |
+|        8 |             20 |
+|        9 |             25 |
+|       10 |             22 |
+|       11 |             25 |
+*****
+
+29.
+mysql> SELECT actor_id, COUNT(film_id) AS 'Num_of_movies' FROM film_actor GROUP BY actor_id ORDER BY Num_of_movies DESC LIMIT
+1;
++----------+---------------+
+| actor_id | Num_of_movies |
++----------+---------------+
+|      107 |            42 |
++----------+---------------+
+
+was just going to leave it as just an id hence why i didnt use join.
+
+mysql> SELECT * FROM actor WHERE actor_id=107;              
++----------+------------+-----------+---------------------+
+| actor_id | first_name | last_name | last_update         |
++----------+------------+-----------+---------------------+
+|      107 | GINA       | DEGENERES | 2006-02-15 04:34:33 |
++----------+------------+-----------+---------------------+
